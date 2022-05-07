@@ -1,0 +1,44 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <h1>Модели случайного леса <a class="my-link" href="{% url 'add_rf' %}">[+]</a></h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">Число деревьев</th>
+            <th scope="col">Максимальное число признаков</th>
+            <th scope="col">Минимальное количество сэмплов для разделения</th>
+            <th scope="col">Минимальное количество сэмплов в узле</th>
+            <th scope="col">MAE</th>
+            <th scope="col">MSE</th>
+            <th scope="col">Выбрать</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rf in rfs %}
+            <tr>
+                <th scope="row"><a class="nav-link my-link"
+                                   href="{% url 'description_rf' pk=rf.id %}"> {{ rf.name }}</a></th>
+                <td>{{ rf.estimators }}</td>
+                <td>{{ rf.max_features }}</td>
+                <td>{{ rf.min_samples_split }}</td>
+                <td>{{ rf.min_samples_leaf }}</td>
+                <td>{{ rf.mae }}</td>
+                <td>{{ rf.mse }}</td>
+                <td><a class="my-link" href="{% url 'select_rf' pk=rf.id%}">Выбрать</a></td>
+
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

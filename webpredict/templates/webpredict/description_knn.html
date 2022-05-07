@@ -1,0 +1,53 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <form method="post" class="text-center col-lg-3 offset-lg-0">
+                {% csrf_token %}
+                {#        {{ form.as_p }}#}
+                <div class="form-group row justify-content-center text-center">
+                    <label for="{{ form.name.id_for_label }}" class="form-label">Имя модели</label>
+                    <input type="text" class="form-control text-center" name="{{ form.name.name }}"
+                           id="{{ form.name.id_for_label }}" value="{{ form.name.value }}"readonly>
+                    <label for="{{ form.neighbors.id_for_label }}" class="form-label">Число соседей</label>
+                    <input type="number" class="form-control text-center" name="{{ form.neighbors.name }}"
+                           id="{{ form.neighbors.id_for_label }}" value="{{ form.neighbors.value }}" readonly>
+                    <label for="{{ form.weights.id_for_label }}" class="form-label">Функция веса</label>
+                    <input type="text" class="form-control text-center" name="{{ form.weights.name }}"
+                           id="{{ form.weights.id_for_label }}" value="{{ form.weights.value }}" readonly>
+                    <label for="{{ form.p.id_for_label }}" class="form-label">Метрика</label>
+                    <input type="number" class="form-control text-center" name="{{ form.p.name }}"
+                           id="{{ form.p.id_for_label }}" value="{{ form.p.value }}" readonly>
+                    <br/>
+                </div>
+                <br/>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiomethod" id="radiomethod1" value="cross"
+                           checked/>
+                    <label class="form-check-label" for="radiomethod1">Кросс-валидация</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiomethod" id="radiomethod2" value="split"/>
+                    <label class="form-check-label" for="radiomethod2">Обучение на выборках</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="radiomethod" id="radiomethod3" value="all"/>
+                    <label class="form-check-label" for="radiomethod3">Обучение на всех данных</label>
+                </div>
+
+                <div class="text-center">
+                    <br/>
+                    <button type="submit" class="my-submit">Обучить</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

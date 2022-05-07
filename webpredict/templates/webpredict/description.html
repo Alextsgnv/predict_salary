@@ -1,0 +1,46 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        {#        {{ form.as_p }}#}
+        <input type="text" class="vacancy form-control text-center" name="{{ form.name.name }}"
+               id="{{ form.name.id_for_label }}" value="{{ form.name.value }}">
+        <div class="form-group">
+            <input type="text" class="form-control" name="{{ form.area.name }}"
+                   id="{{ form.area.id_for_label }}" value="{{ form.area.value }}">
+            <input type="text" class="form-control" name="{{ form.employer.name }}"
+                   id="{{ form.employer.id_for_label }}" value="{{ form.employer.value }}">
+            <input type="text" class="form-control" name="{{ form.employment.name }}"
+                   id="{{ form.employment.id_for_label }}" value="{{ vacancy.employment }}">
+            <input type="text" class="form-control" name="{{ form.schedule.name }}"
+                   id="{{ form.schedule.id_for_label }}" value="{{ form.schedule.value }}">
+        </div>
+        <div class="form-group">
+            <label for="{{ form.skills.id_for_label }}" class="form-label">Навыки</label>
+            <textarea class="form-control" name="{{ form.skills.name }}"
+                      id="{{ form.skills.id_for_label }}">{{ form.skills.value }}</textarea>
+            <br/>
+            <label for="{{ form.description.id_for_label }}" class="form-label">Описание</label>
+            <textarea class="form-control" name="{{ form.description.name }}"
+                      id="{{ form.description.id_for_label }}">{{ form.description.value }}</textarea>
+            <br/>
+        </div>
+
+        <div class="form-group">
+            <label for="id_salary" class="form-label">Заработная плата</label>
+            <input type="number" class="form-control" name="{{ form.salary.name }}" id="id_salary"
+                   value="{{ form.salary.value }}">
+        </div>
+        <div class="text-center">
+            <br/>
+            <button type="submit" class="my-submit">Изменить</button>
+        </div>
+    </form>
+
+{% endblock %}
