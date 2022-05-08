@@ -1,0 +1,39 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="col-lg-2 offset-lg-5">
+        {% csrf_token %}
+{#        {{ form.as_p }}#}
+        <div class="form-group row justify-content-center text-center">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Имя модели</label>
+            <input type="text" class="form-control text-center" name="{{ form.name.name }}"
+                   id="{{ form.name.id_for_label }}" >
+            <label for="{{ form.estimators.id_for_label }}" class="form-label">Число деревьев</label>
+            <input type="number" class="form-control" name="{{ form.estimators.name }}"
+                   id="{{ form.estimators.id_for_label }}" value="{{ form.estimators.value }}">
+            <label for="{{ form.max_features.id_for_label }}" class="form-label">Число признаков</label>
+            <select class="form-select" name="{{ form.max_features.name }}"
+                   id="{{ form.max_features.id_for_label }}">
+                <option value="log2">Логорифм</option>
+                <option value="sqrt">Корень</option>
+                <option value="auto">Автоматически</option>
+            </select>
+            <label for="{{ form.min_samples_split.id_for_label }}" class="form-label">Число сэмплов при делении</label>
+            <input type="number" class="form-control"  name="{{ form.min_samples_split.name }}"
+                   id="{{ form.min_samples_split.id_for_label }}" value="{{ form.min_samples_split.value }}">
+            <label for="{{ form.min_samples_leaf.id_for_label }}" class="form-label">Число сэмплов в узле</label>
+            <input type="number" class="form-control" name="{{ form.min_samples_leaf.name }}"
+                   id="{{ form.min_samples_leaf.id_for_label }}" value="{{ form.min_samples_leaf.value }}">
+        </div>
+        <div class="text-center">
+            <br/>
+            <button type="submit" class="my-submit">Создать</button>
+        </div>
+    </form>
+
+
+{% endblock %}
