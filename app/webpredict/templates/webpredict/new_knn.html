@@ -1,0 +1,39 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="col-lg-2 offset-lg-5">
+        {% csrf_token %}
+{#        {{ form.as_p }}#}
+        <div class="form-group row justify-content-center text-center">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Имя модели</label>
+            <input type="text" class="form-control text-center" name="{{ form.name.name }}"
+                   id="{{ form.name.id_for_label }}" >
+            <label for="{{ form.neighbors.id_for_label }}" class="form-label">Число соседей</label>
+            <input type="number" class="form-control" name="{{ form.neighbors.name }}"
+                   id="{{ form.neighbors.id_for_label }}" value="{{ form.neighbors.value }}">
+            <label for="{{ form.weights.id_for_label }}" class="form-label">Функция веса</label>
+            <select class="form-select" name="{{ form.weights.name }}"
+                   id="{{ form.weights.id_for_label }}">
+                <option value="uniform">uniform</option>
+                <option value="distance">distance</option>
+            </select>
+            <label for="{{ form.p.id_for_label }}" class="form-label">Выбор метрики</label>
+            <select class="form-select" name="{{ form.p.name }}"
+                   id="{{ form.p.id_for_label }}">
+                <option value="1">Манхетовская метрика</option>
+                <option value="2">Евклидова метрика</option>
+            </select>
+
+        </div>
+        <div class="text-center">
+            <br/>
+            <button type="submit" class="my-submit">Создать</button>
+        </div>
+    </form>
+
+
+{% endblock %}

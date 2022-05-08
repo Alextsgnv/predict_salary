@@ -1,0 +1,35 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="col-lg-2 offset-lg-5">
+        {% csrf_token %}
+{#        {{ form.as_p }}#}
+        <div class="form-group row justify-content-center text-center">
+            <label for="{{ form.name.id_for_label }}" class="form-label">Имя модели</label>
+            <input type="text" class="form-control text-center" name="{{ form.name.name }}"
+                   id="{{ form.name.id_for_label }}" >
+            <label for="{{ form.estimators.id_for_label }}" class="form-label">Число деревьев</label>
+            <input type="number" class="form-control" name="{{ form.estimators.name }}"
+                   id="{{ form.estimators.id_for_label }}" value="{{ form.estimators.value }}">
+            <label for="{{ form.max_depth.id_for_label }}" class="form-label">Глубина деревьев</label>
+            <input type="number" class="form-control" name="{{ form.max_depth.name }}"
+                   id="{{ form.max_depth.id_for_label }}" value="{{ form.max_depth.value }}">
+            <label for="{{ form.colsample_bytree.id_for_label }}" class="form-label">Число признаков</label>
+            <input type="number" class="form-control" step="0.01" name="{{ form.colsample_bytree.name }}"
+                   id="{{ form.colsample_bytree.id_for_label }}" value="{{ form.colsample_bytree.value }}">
+            <label for="{{ form.alpha.id_for_label }}" class="form-label">Скорость обучения</label>
+            <input type="number" class="form-control" step="0.001" name="{{ form.alpha.name }}"
+                   id="{{ form.alpha.id_for_label }}" value="{{ form.alpha.value }}">
+        </div>
+        <div class="text-center">
+            <br/>
+            <button type="submit" class="my-submit">Создать</button>
+        </div>
+    </form>
+
+
+{% endblock %}
