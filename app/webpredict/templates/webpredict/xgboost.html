@@ -31,7 +31,11 @@
                 <td>{{ xgb.alpha }}</td>
                 <td>{{ xgb.mae }}</td>
                 <td>{{ xgb.mse }}</td>
-                <td><a class="my-link" href="{% url 'select_xgb' pk=xgb.id%}">Выбрать</a></td>
+                {% if xgb.file_model %}
+                    <td><a class="my-link" href="{% url 'select_xgb' pk=xgb.id%}">Выбрать</a></td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
 
 
 

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import KnnSet, KnnAdd, KnnDescription, KnnSelect, RandomForestAdd, RFDescription, RFSelect
-from .views import RandomForestSet, XGBoostSet, XGBoostAdd, XGBDescription
+from .views import RandomForestSet, XGBoostSet, XGBoostAdd, XGBDescription, XGBSelect
 from .views import VacancyDescription
 from .views import VacancySortId, VacancySortName, VacancySortDate, VacancySortSkills, VacancySortSalary
 from .views import VacancyView, VacancyLoad, VacancyPredictRF, VacancyPredictKNN, VacancyPredictXG
@@ -36,7 +36,7 @@ urlpatterns = [
 
     path('select_rf/<int:pk>', RFSelect.as_view(), name='select_rf'),
     path('select_knn/<int:pk>', KnnSelect.as_view(), name='select_knn'),
-    path('select_xgb/<int:pk>', KnnSelect.as_view(), name='select_xgb'),
+    path('select_xgb/<int:pk>', XGBSelect.as_view(), name='select_xgb'),
 
 ]
 if bool(settings.DEBUG):

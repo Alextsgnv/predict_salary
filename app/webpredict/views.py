@@ -475,3 +475,19 @@ class RFSelect(ListView):
         add_predict_salary(predict_salary)
         context["vacancies"] = Vacancy.objects.order_by('id')
         return context
+
+class XGBSelect(ListView):
+    template_name = "webpredict/index.html"
+    model = Vacancy
+    fields = '__all__'
+    success_url = reverse_lazy('select_rf')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        xgb = XGBoostModel.objects.get(id=self.kwargs["pk"])
+
+        vacancies = Vacancy.objects.order_by('id')
+        predict_salary = get_predict_xg(vacancies, xgb.file_model.path)
+        add_predict_salary(predict_salary)
+        context["vacancies"] = Vacancy.objects.order_by('id')
+        return context

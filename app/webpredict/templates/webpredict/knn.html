@@ -29,7 +29,11 @@
                 <td>{{ knn.p }}</td>
                 <td>{{ knn.mae }}</td>
                 <td>{{ knn.mse }}</td>
+                {% if knn.file_model %}
                 <td><a class="my-link" href="{% url 'select_knn' pk=knn.id%}">Выбрать</a></td>
+                {% else %}
+                <td>-</td>
+                {% endif %}
 
 
 

@@ -31,7 +31,11 @@
                 <td>{{ rf.min_samples_leaf }}</td>
                 <td>{{ rf.mae }}</td>
                 <td>{{ rf.mse }}</td>
-                <td><a class="my-link" href="{% url 'select_rf' pk=rf.id%}">Выбрать</a></td>
+                {% if rf.file_model %}
+                    <td><a class="my-link" href="{% url 'select_rf' pk=rf.id%}">Выбрать</a></td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
 
 
 
