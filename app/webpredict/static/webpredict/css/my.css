@@ -1,0 +1,26 @@
+.my-link {
+    color: black;
+    text-decoration: none;
+}
+
+.my-link:hover {
+    color: rgb(0 0 0 / 55%);
+}
+
+.my-submit{
+    background-color: rgb(0 0 0 / 15%);
+    border-color: rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    color: black;
+}
+
+.my-submit:hover{
+    background-color: rgb(0 0 0 / 45%);
+    border-color: rgb(0 0 0 / 45%);
+    color: white;
+    border-radius: 5px;
+}
+.vacancy{
+    font-size: 14pt;
+    border: 0;
+}
