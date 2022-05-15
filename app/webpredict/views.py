@@ -7,13 +7,13 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.list import ListView
 from functions.knn import get_predict_knn
 from functions.loadvacansies import get_vacancies
-from functions.ml_models import Knn, RandomForest, XGBoostReg
+from functions.ml_models import Knn, RandomForest, XGBoostReg, Ridge_reg
 from functions.randomforest import get_predict_rf
 from functions.xgboost import get_predict_xg
 from functions.ridge import get_predict_lr
 
 from .forms import VacancyForm, KnnModelForm, RandomForestModelForm, XGBoostModelForm
-from .models import Vacancy, KnnModel, RandomForestModel, XGBoostModel
+from .models import Vacancy, KnnModel, RandomForestModel, XGBoostModel, RidgeModel
 
 
 # Create your views here.
@@ -43,6 +43,12 @@ def add_predict_salary(predict_salary: zip):
 
 
 def create_base_model():
+    if not RidgeModel.objects.filter(name="base").exists():
+        new_lr = RidgeModel()
+        new_lr.name = "base"
+        with open("./media/ml_models_save/base/lr.save", "rb") as file:
+            new_lr.file_model = File(file)
+            new_lr.save()
     if not KnnModel.objects.filter(name="base").exists():
         new_knn = KnnModel()
         new_knn.name = "base"
@@ -358,6 +364,50 @@ class KnnDescription(UpdateView):
             knn.save()
         knns = KnnModel.objects.all()
         return render(request, 'webpredict/knn.html', {"knns": knns})
+
+class RidgeDescription(CreateView):
+    template_name = "webpredict/description_lr.html"
+    success_url = reverse_lazy('description_rf')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["lr"] = {name:"base"}
+        return context
+    def post(self, request, *args, **kwargs):
+        id_model = self.kwargs['pk']
+        name = request.POST['name']
+        method = request.POST['radiomethod']
+        lr = Ridge_reg(name=name)
+        vacancy = Vacancy.objects.exclude(salary=0)
+        file_path = ""
+        if method == "cross":
+            lr.set_traindata(vacancy)
+            lr.get_cross()
+            lr.train()
+        elif method == "split":
+            lr.set_traindata(vacancy)
+            lr.get_split()
+            lr.train()
+            lr.save_to_file()
+            file_path = lr.filepath
+        elif method == "all":
+            lr.set_traindata(vacancy)
+            lr.set_all()
+            lr.train()
+            lr.save_to_file()
+            file_path = lr.filepath
+        rf = RandomForestModel.objects.get(id=id_model)
+        rf.mae = rf_model.mae
+        rf.mse = rf_model.mse
+        if file_path:
+            with open(rf_model.filepath, "rb") as file:
+                rf.file_model = File(file)
+                rf.save()
+
+        else:
+            rf.save()
+        rfs = RandomForestModel.objects.all()
+        return render(request, 'webpredict/randomforest.html', {"rfs": rfs})
 
 
 class RFDescription(UpdateView):

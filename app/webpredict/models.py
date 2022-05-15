@@ -34,8 +34,8 @@ class KnnModel(models.Model):
         ("distance", "distance"),
     )
     PARAMS_P = (
-        (1,"manhattan distance"),
-        (2,"euclidean distance"),
+        (1, "manhattan distance"),
+        (2, "euclidean distance"),
     )
     name = models.CharField(max_length=10)
     neighbors = models.IntegerField(default=5)
@@ -50,8 +50,6 @@ class KnnModel(models.Model):
         verbose_name_plural = 'Модели К-ближайших соседей'
         verbose_name = 'Модель К-ближайших соседей'
         ordering = ['id']
-
-
 
 
 class RandomForestModel(models.Model):
@@ -93,3 +91,14 @@ class XGBoostModel(models.Model):
         ordering = ['id']
 
 
+class RidgeModel(models.Model):
+    name = models.CharField(max_length=10)
+    mae = models.FloatField(default=0)
+    mse = models.FloatField(default=0)
+    file_model = models.FileField(default=None)
+
+    class Meta:
+        db_table = 'ridge'
+        verbose_name_plural = 'Модели линейной регресии'
+        verbose_name = 'Модель линейной регресии'
+        ordering = ['id']

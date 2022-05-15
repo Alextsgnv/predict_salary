@@ -1,6 +1,5 @@
 from django.forms import ModelForm
-
-from .models import Vacancy, KnnModel, XGBoostModel, RandomForestModel
+from .models import Vacancy, KnnModel, XGBoostModel, RandomForestModel, RidgeModel
 
 
 class VacancyForm(ModelForm):
@@ -16,6 +15,14 @@ class VacancyForm(ModelForm):
             "skills",
             "salary",
         )
+
+class RidgeModelForm(ModelForm):
+    class Meta:
+        model = RidgeModel
+        fields = (
+            "name",
+        )
+
 
 
 class KnnModelForm(ModelForm):
