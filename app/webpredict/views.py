@@ -56,9 +56,9 @@ def create_base_model():
     if not RandomForestModel.objects.filter(name="base").exists():
         new_rf = RandomForestModel()
         new_rf.name = "base"
-        new_rf.estimators = 400
-        new_rf.min_samples_leaf = 5
-        new_rf.max_features = 'log2'
+        new_rf.estimators = 100
+        new_rf.min_samples_leaf = 2
+        new_rf.max_features = 'sqrt'
         with open("./media/ml_models_save/base/rf.save", "rb") as file:
             new_rf.file_model = File(file)
             new_rf.save()
