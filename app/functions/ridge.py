@@ -15,6 +15,6 @@ def get_predict_lr(vacancies: QuerySet) -> zip:
         modellr = pickle.load(file)
     df_predict = get_df_predict(df_vacancies)
     X_predict = df_predict.drop(["salary", "id_hh"], axis=1)
-    y_pred = modelRF.predict(X_predict)
+    y_pred = modellr.predict(X_predict)
     id_hh = df_predict.id_hh.values
     return zip(id_hh, np.round(y_pred))
