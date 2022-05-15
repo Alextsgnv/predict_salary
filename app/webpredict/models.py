@@ -91,3 +91,5 @@ class XGBoostModel(models.Model):
         verbose_name_plural = 'Модели градиентного бустинга'
         verbose_name = 'Модель градиентного бустинга'
         ordering = ['id']
+
+
