@@ -121,8 +121,9 @@ class VacancyPredictRidge(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         vacancies = Vacancy.objects.order_by('id')
-        predict_salary = get_predict_lr(vacancies)
-        add_predict_salary(predict_salary)
+        if vacancies.exists():
+            predict_salary = get_predict_lr(vacancies)
+            add_predict_salary(predict_salary)
         vacancies = Vacancy.objects.order_by('id')
         context["vacancies"] = vacancies
         return context
@@ -137,8 +138,9 @@ class VacancyPredictRF(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         vacancies = Vacancy.objects.order_by('id')
-        predict_salary = get_predict_rf(vacancies)
-        add_predict_salary(predict_salary)
+        if vacancies.exists():
+            predict_salary = get_predict_lr(vacancies)
+            add_predict_salary(predict_salary)
         vacancies = Vacancy.objects.order_by('id')
         context["vacancies"] = vacancies
         return context
@@ -153,8 +155,9 @@ class VacancyPredictKNN(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         vacancies = Vacancy.objects.order_by('id')
-        predict_salary = get_predict_knn(vacancies)
-        add_predict_salary(predict_salary)
+        if vacancies.exists():
+            predict_salary = get_predict_lr(vacancies)
+            add_predict_salary(predict_salary)
         vacancies = Vacancy.objects.order_by('id')
         context["vacancies"] = vacancies
         return context
@@ -169,8 +172,9 @@ class VacancyPredictXG(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         vacancies = Vacancy.objects.order_by('id')
-        predict_salary = get_predict_xg(vacancies)
-        add_predict_salary(predict_salary)
+        if vacancies.exists():
+            predict_salary = get_predict_lr(vacancies)
+            add_predict_salary(predict_salary)
         vacancies = Vacancy.objects.order_by('id')
         context["vacancies"] = vacancies
         return context
