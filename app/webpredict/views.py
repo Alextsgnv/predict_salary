@@ -395,7 +395,7 @@ class RidgeDescription(UpdateView):
             lr_model.get_split()
             lr_model.train()
             lr_model.save_to_file()
-            file_path = lr.filepath
+            file_path = lr_model.filepath
         elif method == "all":
             lr_model.set_traindata(vacancy)
             lr_model.set_all()

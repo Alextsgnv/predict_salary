@@ -12,7 +12,7 @@ def get_predict_lr(vacancies: QuerySet, file_path: str = "") -> zip:
     path = os.getcwd()
     df_vacancies = pd.DataFrame(vacancies.values())
     if not file_path:
-        file_path = "./media/ml_models_save/base/xgb.save"
+        file_path = "./media/ml_models_save/base/lr.save"
     else:
         file_path = os.path.join(path, file_path)
     with open(file_path, "rb") as file:
