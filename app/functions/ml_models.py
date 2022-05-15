@@ -176,6 +176,8 @@ class Ridge_reg(MLmodel):
         self.id_model = id_model
         self.name = name
         self.model = Ridge()
+
+    def save_to_file(self):
         if self.trained:
             if self.name == "base":
                 self.filepath = "./media/ml_models_save/base/lr.save"

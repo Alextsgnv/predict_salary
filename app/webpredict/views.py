@@ -401,7 +401,7 @@ class RidgeDescription(UpdateView):
             lr_model.set_all()
             lr_model.train()
             lr_model.save_to_file()
-            file_path = lr.filepath
+            file_path = lr_model.filepath
         ridge = RidgeModel.objects.get(id=id_model)
         ridge.mae = lr_model.mae
         ridge.mse = lr_model.mse
@@ -568,6 +568,23 @@ class XGBSelect(ListView):
 
         vacancies = Vacancy.objects.order_by('id')
         predict_salary = get_predict_xg(vacancies, xgb.file_model.path)
+        add_predict_salary(predict_salary)
+        context["vacancies"] = Vacancy.objects.order_by('id')
+        return context
+
+
+class RidgeSelect(ListView):
+    template_name = "webpredict/index.html"
+    model = Vacancy
+    fields = '__all__'
+    success_url = reverse_lazy('select_lr')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ridge = RidgeModel.objects.get(id=self.kwargs["pk"])
+
+        vacancies = Vacancy.objects.order_by('id')
+        predict_salary = get_predict_lr(vacancies, ridge.file_model.path)
         add_predict_salary(predict_salary)
         context["vacancies"] = Vacancy.objects.order_by('id')
         return context

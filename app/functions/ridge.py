@@ -8,13 +8,17 @@ from django.db.models.query import QuerySet
 from .createdf import get_df_predict
 
 
-def get_predict_lr(vacancies: QuerySet) -> zip:
+def get_predict_lr(vacancies: QuerySet, file_path: str = "") -> zip:
+    path = os.getcwd()
     df_vacancies = pd.DataFrame(vacancies.values())
-    file_path = "./media/ml_models_save/base/lr.save"
+    if not file_path:
+        file_path = "./media/ml_models_save/base/xgb.save"
+    else:
+        file_path = os.path.join(path, file_path)
     with open(file_path, "rb") as file:
-        modellr = pickle.load(file)
+        ridge = pickle.load(file)
     df_predict = get_df_predict(df_vacancies)
     X_predict = df_predict.drop(["salary", "id_hh"], axis=1)
-    y_pred = modellr.predict(X_predict)
+    y_pred = ridge.predict(X_predict)
     id_hh = df_predict.id_hh.values
     return zip(id_hh, np.round(y_pred))
