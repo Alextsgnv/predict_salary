@@ -271,8 +271,11 @@ class KnnSet(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        knn_models = KnnModel.objects.all()
-        context["knns"] = knn_models
+        if Vacancy.objects.all().exists():
+            knn_models = KnnModel.objects.all()
+            context["knns"] = knn_models
+        else:
+            context["knns"] = []
         return context
 
 
@@ -284,8 +287,11 @@ class RandomForestSet(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        rf_models = RandomForestModel.objects.all()
-        context["rfs"] = rf_models
+        if Vacancy.objects.all().exists():
+            rf_models = RandomForestModel.objects.all()
+            context["rfs"] = rf_models
+        else:
+            context["rfs"] = []
         return context
 
 
@@ -297,8 +303,11 @@ class XGBoostSet(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        xg_models = XGBoostModel.objects.all()
-        context["xgbs"] = xg_models
+        if Vacancy.objects.all().exists():
+            xgb_models = XGBoostModel.objects.all()
+            context["xgbs"] = xgb_models
+        else:
+            context["xgbs"] = []
         return context
 
 
