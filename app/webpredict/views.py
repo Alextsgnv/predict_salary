@@ -57,7 +57,7 @@ def create_base_model():
         new_rf = RandomForestModel()
         new_rf.name = "base"
         new_rf.estimators = 100
-        new_rf.min_samples_leaf = 2
+        new_rf.min_samples_leaf = 1
         new_rf.max_features = 'sqrt'
         with open("./media/ml_models_save/base/rf.save", "rb") as file:
             new_rf.file_model = File(file)
