@@ -1,0 +1,40 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    Главная страница
+{% endblock %}
+
+{% block content %}
+    <h1>Линейная регрессия</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Название</th>
+            <th scope="col">MAE</th>
+            <th scope="col">MSE</th>
+            <th scope="col">Выбрать</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for lr in lrs %}
+            <tr>
+                <th scope="row"><a class="nav-link my-link"
+                                   href="{% url 'description_lr' pk=lr.id %}"> {{ lr.name }}</a></th>
+                <td>{{ lr.mae }}</td>
+                <td>{{ lr.mse }}</td>
+                {% if lr.file_model %}
+                <td><a class="my-link" href="{% url 'select_lr' pk=lr.id%}">Выбрать</a></td>
+                {% else %}
+                <td>-</td>
+                {% endif %}
+
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

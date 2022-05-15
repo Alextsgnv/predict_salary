@@ -9,10 +9,10 @@ from functions.knn import get_predict_knn
 from functions.loadvacansies import get_vacancies
 from functions.ml_models import Knn, RandomForest, XGBoostReg, Ridge_reg
 from functions.randomforest import get_predict_rf
-from functions.xgboost import get_predict_xg
 from functions.ridge import get_predict_lr
+from functions.xgboost import get_predict_xg
 
-from .forms import VacancyForm, KnnModelForm, RandomForestModelForm, XGBoostModelForm
+from .forms import VacancyForm, KnnModelForm, RandomForestModelForm, XGBoostModelForm, RidgeModelForm
 from .models import Vacancy, KnnModel, RandomForestModel, XGBoostModel, RidgeModel
 
 
@@ -110,6 +110,7 @@ class VacancyLoad(ListView):
 
         context["vacancies"] = Vacancy.objects.order_by('id')
         return context
+
 
 class VacancyPredictRidge(ListView):
     template_name = "webpredict/index.html"
@@ -246,12 +247,15 @@ class VacancyDescription(UpdateView):
 
 
 class RidgeSet(ListView):
-    template_name = "webpredict/knn.html"
+    template_name = "webpredict/ridge.html"
+    model = RidgeModel
     success_url = reverse_lazy('set_lr')
+    fields = "__all__"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["lr"] = {name: "base"}
+        ridge_models = RidgeModel.objects.all()
+        context["lrs"] = ridge_models
         return context
 
 
@@ -365,14 +369,16 @@ class KnnDescription(UpdateView):
         knns = KnnModel.objects.all()
         return render(request, 'webpredict/knn.html', {"knns": knns})
 
-class RidgeDescription(CreateView):
-    template_name = "webpredict/description_lr.html"
-    success_url = reverse_lazy('description_rf')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["lr"] = {name:"base"}
-        return context
+class RidgeDescription(UpdateView):
+    template_name = "webpredict/description_lr.html"
+    model = RidgeModel
+    success_url = reverse_lazy('description_lr')
+    form_class = RidgeModelForm
+
+    def get_queryset(self, **kwargs):
+        return RidgeModel.objects.filter(id=self.kwargs['pk'])
+
     def post(self, request, *args, **kwargs):
         id_model = self.kwargs['pk']
         name = request.POST['name']
@@ -406,8 +412,8 @@ class RidgeDescription(CreateView):
 
         else:
             rf.save()
-        rfs = RandomForestModel.objects.all()
-        return render(request, 'webpredict/randomforest.html', {"rfs": rfs})
+        ridges = RidgeModel.objects.all()
+        return render(request, 'webpredict/ridge.html', {"lrs": ridges})
 
 
 class RFDescription(UpdateView):
