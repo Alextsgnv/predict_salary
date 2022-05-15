@@ -8,6 +8,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.linear_model import Ridge
 
 from xgboost import XGBRegressor
 from .createdf import get_df_predict
@@ -164,6 +165,19 @@ class XGBoostReg(MLmodel):
                     pickle.dump(self.model, file)
             else:
                 self.filepath = "./media/ml_models_save/xgb_" + str(self.id_model) + ".save"
+                print(self.filepath)
+                with open(self.filepath, "wb") as file:
+                    pickle.dump(self.model, file)
+
+
+class Ridge_reg(MLmodel):
+    def __init__(self, id_model: int, name: str):
+        super().__init__()
+        self.id_model = id_model
+        self.model = Ridge()
+        if self.trained:
+            if self.name == "base":
+                self.filepath = "./media/ml_models_save/base/lr.save"
                 print(self.filepath)
                 with open(self.filepath, "wb") as file:
                     pickle.dump(self.model, file)

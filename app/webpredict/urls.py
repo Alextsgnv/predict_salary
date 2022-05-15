@@ -5,6 +5,7 @@ from .views import RandomForestSet, XGBoostSet, XGBoostAdd, XGBDescription, XGBS
 from .views import VacancyDescription
 from .views import VacancySortId, VacancySortName, VacancySortDate, VacancySortSkills, VacancySortSalary
 from .views import VacancyView, VacancyLoad, VacancyPredictRF, VacancyPredictKNN, VacancyPredictXG
+from .views import VacancyPredictRidge
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -12,9 +13,12 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', VacancyView.as_view(), name='index'),
     path('load/', VacancyLoad.as_view(), name='load'),
+
+    path('ridge/', VacancyPredictRidge.as_view(), name='predict_lr'),
     path('random_forest/', VacancyPredictRF.as_view(), name='predict_rf'),
     path('knn/', VacancyPredictKNN.as_view(), name='predict_knn'),
     path('xg/', VacancyPredictXG.as_view(), name='predict_xg'),
+
     path('id/', VacancySortId.as_view(), name='sort_id'),
     path('name/', VacancySortName.as_view(), name='sort_name'),
     path('date/', VacancySortDate.as_view(), name='sort_date'),
@@ -22,6 +26,7 @@ urlpatterns = [
     path('skills/', VacancySortSkills.as_view(), name='sort_skills'),
     path('<int:pk>/', VacancyDescription.as_view(), name='description'),
 
+    path('set_lr/', XGBoostSet.as_view(), name='set_lr'),
     path('set_random_forest/', RandomForestSet.as_view(), name='set_rf'),
     path('set_knn/', KnnSet.as_view(), name='set_knn'),
     path('set_xgb/', XGBoostSet.as_view(), name='set_xgb'),

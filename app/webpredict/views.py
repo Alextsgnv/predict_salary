@@ -1,18 +1,17 @@
 import datetime
-import os
 
-from django.conf import settings
 from django.core.files import File
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.list import ListView
-
 from functions.knn import get_predict_knn
 from functions.loadvacansies import get_vacancies
 from functions.ml_models import Knn, RandomForest, XGBoostReg
 from functions.randomforest import get_predict_rf
 from functions.xgboost import get_predict_xg
+from functions.ridge import get_predict_lr
+
 from .forms import VacancyForm, KnnModelForm, RandomForestModelForm, XGBoostModelForm
 from .models import Vacancy, KnnModel, RandomForestModel, XGBoostModel
 
@@ -106,8 +105,22 @@ class VacancyLoad(ListView):
         context["vacancies"] = Vacancy.objects.order_by('id')
         return context
 
+class VacancyPredictRidge(ListView):
+    template_name = "webpredict/index.html"
+    model = Vacancy
+    success_url = reverse_lazy('predict_lr')
+    fields = '__all__'
 
-# noinspection PyUnresolvedReferences
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        vacancies = Vacancy.objects.order_by('id')
+        predict_salary = get_predict_lr(vacancies)
+        add_predict_salary(predict_salary)
+        vacancies = Vacancy.objects.order_by('id')
+        context["vacancies"] = vacancies
+        return context
+
+
 class VacancyPredictRF(ListView):
     template_name = "webpredict/index.html"
     model = Vacancy
@@ -224,6 +237,16 @@ class VacancyDescription(UpdateView):
 
     def get_queryset(self, **kwargs):
         return Vacancy.objects.filter(id=self.kwargs['pk'])
+
+
+class RidgeSet(ListView):
+    template_name = "webpredict/knn.html"
+    success_url = reverse_lazy('set_lr')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["lr"] = {name: "base"}
+        return context
 
 
 class KnnSet(ListView):
@@ -475,6 +498,7 @@ class RFSelect(ListView):
         add_predict_salary(predict_salary)
         context["vacancies"] = Vacancy.objects.order_by('id')
         return context
+
 
 class XGBSelect(ListView):
     template_name = "webpredict/index.html"
