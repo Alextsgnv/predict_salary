@@ -25,13 +25,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-# # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-1w6%m1zztxmd$f4rzhr%1muw(c0@87ofo=g5(9@5z00e(2jyvm'
-#
-# # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-#
-# ALLOWED_HOSTS = ["localhost","127.0.0.1"]
+
 
 
 # Application definition
@@ -90,16 +84,7 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'vacancy',
-#         'USER': 'postgres',
-#         'PASSWORD': '12345678',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
