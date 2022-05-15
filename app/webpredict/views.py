@@ -383,35 +383,35 @@ class RidgeDescription(UpdateView):
         id_model = self.kwargs['pk']
         name = request.POST['name']
         method = request.POST['radiomethod']
-        lr = Ridge_reg(name=name)
+        lr_model = Ridge_reg(name=name, id_model=id_model)
         vacancy = Vacancy.objects.exclude(salary=0)
         file_path = ""
         if method == "cross":
-            lr.set_traindata(vacancy)
-            lr.get_cross()
-            lr.train()
+            lr_model.set_traindata(vacancy)
+            lr_model.get_cross()
+            lr_model.train()
         elif method == "split":
-            lr.set_traindata(vacancy)
-            lr.get_split()
-            lr.train()
-            lr.save_to_file()
+            lr_model.set_traindata(vacancy)
+            lr_model.get_split()
+            lr_model.train()
+            lr_model.save_to_file()
             file_path = lr.filepath
         elif method == "all":
-            lr.set_traindata(vacancy)
-            lr.set_all()
-            lr.train()
-            lr.save_to_file()
+            lr_model.set_traindata(vacancy)
+            lr_model.set_all()
+            lr_model.train()
+            lr_model.save_to_file()
             file_path = lr.filepath
-        rf = RandomForestModel.objects.get(id=id_model)
-        rf.mae = rf_model.mae
-        rf.mse = rf_model.mse
+        ridge = RidgeModel.objects.get(id=id_model)
+        ridge.mae = lr_model.mae
+        ridge.mse = lr_model.mse
         if file_path:
-            with open(rf_model.filepath, "rb") as file:
-                rf.file_model = File(file)
-                rf.save()
+            with open(lr_model.filepath, "rb") as file:
+                ridge.file_model = File(file)
+                ridge.save()
 
         else:
-            rf.save()
+            ridge.save()
         ridges = RidgeModel.objects.all()
         return render(request, 'webpredict/ridge.html', {"lrs": ridges})
 

@@ -174,6 +174,7 @@ class Ridge_reg(MLmodel):
     def __init__(self, id_model: int, name: str):
         super().__init__()
         self.id_model = id_model
+        self.name = name
         self.model = Ridge()
         if self.trained:
             if self.name == "base":
